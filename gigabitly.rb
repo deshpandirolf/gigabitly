@@ -3,9 +3,10 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
-require 'gigabitly/lookup'
-require 'gigabitly/settings'
-require 'gigabitly/server'
+
+Dir.glob('gigabitly/*.rb').each do |f|
+  require f
+end
 
 include Gigabitly::Settings
 include Gigabitly::Server
