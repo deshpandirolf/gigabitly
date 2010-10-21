@@ -23,8 +23,9 @@ module Lookup
       res = http_get(uri.host, uri.request_uri, :hash => md5(query))
 
       if res
-        hash = JSON.parse(res)
-        top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
+        if hash = JSON.parse(res)
+          top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
+        end
       end
 
       top_five_tags
