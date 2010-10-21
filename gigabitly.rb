@@ -4,6 +4,8 @@ require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
 require 'erb'
+require 'cgi'
+require 'json'
 
 get '/' do
   @title = "Gigabitly"
@@ -13,6 +15,7 @@ end
 
 post '/link' do
   @title = params["url"] + " - Gigabitly"
+  @keywords = Lookup.keywords(params["url"])
   @content = erb :link
   erb :base
 end
