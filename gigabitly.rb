@@ -8,24 +8,6 @@ require 'erb'
 require 'cgi'
 require 'json'
 
-Registration.init
-
-get '/' do
-  @title = "Gigabitly"
-  @content = erb :index
-  erb :base
-end
-
-post '/link' do
-  @title = params["url"] + " - Gigabitly"
-  @keywords = Lookup.keywords(params["url"])
-  @content = erb :link
-  erb :base
-end
-
-post '/shorten' do
-end
-
 module Lookup
   def self.keywords(query)
     words = []
@@ -64,18 +46,38 @@ end
 
 module Registration
   
-  def init
+  def self.init
     config_file = File.join(File.dirname(__FILE__), 'bitly.yml')
     if !File.file?(config_file)
       raise "ERROR: Must have a bitly.yml file (see bitly.yml.example)"
     end
 
     config = YAML.load(config_file)['bitly']
+    Bitly.use_api_version_3
     @@bitly = Bitly.new(config['username'], config['api_key'])
   end
 
-  def keyword_available?(keyword)
+  def self.keyword_available?(keyword)
     info = @@bitly.info(keyword)
     info.error && info.error == "NOT_FOUND"
   end
 end
+
+Registration.init
+
+get '/' do
+  @title = "Gigabitly"
+  @content = erb :index
+  erb :base
+end
+
+post '/link' do
+  @title = params["url"] + " - Gigabitly"
+  @keywords = Lookup.keywords(params["url"])
+  @content = erb :link
+  erb :base
+end
+
+post '/shorten' do
+end
+

@@ -1,3 +1,9 @@
+body {
+    font-family: futura, sans-serif;
+    width: 700px;
+    margin: auto;
+}
+
 input {
     font-size: 200%;
     border: none;
