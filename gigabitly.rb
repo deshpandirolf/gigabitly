@@ -73,8 +73,8 @@ get '/' do
 end
 
 post '/link' do
-  @title = params["url"] + " - Gigabitly"
-  @keywords = Lookup.keywords(params["url"])
+  @title = params["u"] + " - Gigabitly"
+  @keywords = Lookup.keywords(params["u"])
   @content = erb :link
   erb :base
 end
