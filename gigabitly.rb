@@ -3,8 +3,17 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
+require 'erb'
 
 get '/' do
+  erb :index
+end
+
+post '/link' do
+  erb :link
+end
+
+post '/shorten' do
 end
 
 module Lookup
