@@ -1,6 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    bitly (0.5.3)
+      crack (>= 0.1.4)
+      httparty (>= 0.5.2)
+    crack (0.1.8)
+    httparty (0.6.1)
+      crack (= 0.1.8)
     json (1.4.6)
     rack (1.2.1)
     sinatra (1.0)
@@ -10,5 +16,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bitly
   json
   sinatra

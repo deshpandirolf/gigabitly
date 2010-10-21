@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require 'bitly'
 require 'sinatra'
 require 'erb'
 require 'cgi'
@@ -41,11 +42,15 @@ module Lookup
         hash = JSON.parse(res)
         top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
       end
+
       top_five_tags
     end
 
     def self.http_get(domain, path, params)
-      return Net::HTTP.get(domain, "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&'))) if not params.nil?
+      if params
+        return Net::HTTP.get(domain, "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&')))
+      end
+
       return Net::HTTP.get(domain, path)
     end
 
