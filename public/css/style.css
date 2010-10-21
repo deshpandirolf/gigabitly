@@ -1,0 +1,7 @@
+input {
+    font-size: 200%;
+    border: none;
+    outline-width: 0;
+    border-bottom: 1px solid black;
+    width: 700px;
+}
