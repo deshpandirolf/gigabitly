@@ -68,7 +68,7 @@ module Registration
   end
 
   def self.register(url, short)
-    @@bitly.shorten(url)
+    @@bitly.shorten(url, short)
   end
 end
 
@@ -89,5 +89,5 @@ post '/link' do
 end
 
 post '/short' do
-  redirect Registration.register(params["u"], :keyword => params["s"]).short_url
+  redirect Registration.register(params["u"], params["s"]).short_url
 end
