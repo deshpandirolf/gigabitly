@@ -3,11 +3,18 @@ body {
     width: 700px;
     margin: auto;
 }
-
 input {
     font-size: 200%;
     border: none;
     outline-width: 0;
     border-bottom: 1px solid black;
     width: 700px;
+}
+ul {
+    list-style: none;
+    font-size: 150%;
+}
+li {
+    margin-bottom: 1em;
+    margin-left: -1em;
 }

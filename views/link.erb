@@ -1,5 +1,10 @@
-<ul>
-<% @keywords.each do |keyword| %>
-  <li><%= keyword %></li>
-<% end %>
-</ul>
+<h2>Pick your short URL:</h2>
+<form action="/short" method="post" name="f">
+  <input type="hidden" name="u" value="<%= @url %>"></input>
+  <input type="hidden" name="s"></input>
+  <ul>
+    <% @shorts.each do |short| %>
+    <li><a href="javascript:shorten('<%= short %>')">http://bit.ly/<%= short %></a></li>
+    <% end %>
+  </ul>
+</form>
