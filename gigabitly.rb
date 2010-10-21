@@ -8,6 +8,8 @@ require 'erb'
 require 'cgi'
 require 'json'
 
+Registration.init
+
 get '/' do
   @title = "Gigabitly"
   @content = erb :index
@@ -57,5 +59,23 @@ module Lookup
     def self.md5(query)
       Digest::MD5.hexdigest(query)
     end
+  end
+end
+
+module Registration
+  
+  def init
+    config_file = File.join(File.dirname(__FILE__), 'bitly.yml')
+    if !File.file?(config_file)
+      raise "ERROR: Must have a bitly.yml file (see bitly.yml.example)"
+    end
+
+    config = YAML.load(config_file)['bitly']
+    @@bitly = Bitly.new(config['username'], config['api_key'])
+  end
+
+  def keyword_available?(keyword)
+    info = @@bitly.info(keyword)
+    info.error && info.error == "NOT_FOUND"
   end
 end
