@@ -8,6 +8,9 @@ GEM
     httparty (0.6.1)
       crack (= 0.1.8)
     json (1.4.6)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
+    nokogiri (1.4.3.1)
     rack (1.2.1)
     sinatra (1.0)
       rack (>= 1.0)
@@ -18,4 +21,5 @@ PLATFORMS
 DEPENDENCIES
   bitly
   json
+  mechanize
   sinatra

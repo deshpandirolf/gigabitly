@@ -7,6 +7,7 @@ require 'sinatra'
 require 'erb'
 require 'cgi'
 require 'json'
+require 'mechanize'
 
 module Lookup
   def self.keywords(query)
@@ -20,23 +21,26 @@ module Lookup
 
     def self.lookup(query)
       uri = URI.parse(BASE_URL)
-      res = http_get(uri.host, uri.request_uri, :hash => md5(query))
+      res = http_get(BASE_URL + "?hash=#{md5(normalize(query))}").body
 
-      if res
-        if hash = JSON.parse(res)
-          top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
-        end
+      if hash = JSON.parse(res)
+        top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
       end
 
       top_five_tags
     end
 
-    def self.http_get(domain, path, params)
-      if params
-        return Net::HTTP.get(domain, "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&')))
-      end
+    def self.http_get(url)
+       a = Mechanize.new do |agent|
+         agent.user_agent_alias = 'Mac Safari'
+       end
+       a.get(url)
+    end
 
-      return Net::HTTP.get(domain, path)
+    # Do the initial follow
+    # e.g. mongodb.org -> mongodb.org/
+    def self.normalize(query)
+      http_get(query).uri.to_s
     end
 
     def self.md5(query)
