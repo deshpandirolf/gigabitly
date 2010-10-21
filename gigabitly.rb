@@ -6,11 +6,15 @@ require 'sinatra'
 require 'erb'
 
 get '/' do
-  erb :index
+  @title = "Gigabitly"
+  @content = erb :index
+  erb :base
 end
 
 post '/link' do
-  erb :link
+  @title = params["url"] + " - Gigabitly"
+  @content = erb :link
+  erb :base
 end
 
 post '/shorten' do
