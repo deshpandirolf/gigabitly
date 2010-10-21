@@ -25,10 +25,11 @@ module Lookup
       res = http_get(BASE_URL + "?hash=#{md5(normalize(query))}").body
 
       if hash = JSON.parse(res)
-        top_five_tags = hash.first['top_tags'].sort {|a,b| b[1] <=> a[1] }.first(5).map(&:first)
+        tags = hash.first['top_tags'].select {|tag, value| value > 5 }.map(&:first)
+      else
+        tags = []
       end
-
-      top_five_tags.select { |word| Registration.keyword_available?(word) }
+      Registration.available_shorts(tags.map {|tag| tag + "zer1" }).first(5)
     end
 
     def self.http_get(url)
@@ -72,25 +73,31 @@ module Registration
     info.respond_to?(:error) && info.error == "NOT_FOUND"
   end
 
+  def self.available_shorts(keywords)
+    info = bitly.info(keywords)
+    info.select { |short|
+      short.respond_to?(:error) && short.error == "NOT_FOUND"
+    }.map(&:user_hash)
+  end
+
   def self.register(url, short)
-    @@bitly.shorten(url, short)
+    raise "this doesn't work!"
+    # bitly.shorten(url, short)
   end
 end
 
 get '/' do
-  @title = "gigabitly"
   @content = erb :index
   erb :base
 end
 
 post '/link' do
   @url = params["u"]
-  @title = @url + " - gigabitly"
   @shorts = Lookup.keywords(@url)
   @content = erb :link
   erb :base
 end
 
 post '/short' do
-  redirect Registration.register(params["u"], params["s"]).short_url
+  redirect Registration.register(params["u"], params["s"]).short_url + "+"
 end
