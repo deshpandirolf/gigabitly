@@ -66,6 +66,10 @@ module Registration
     info = @@bitly.info(keyword)
     info.error && info.error == "NOT_FOUND"
   end
+
+  def self.register(url, short)
+    @@bitly.shorten(url)
+  end
 end
 
 Registration.init
@@ -85,8 +89,5 @@ post '/link' do
 end
 
 post '/short' do
-  url = params["u"]
-  short = params["s"]
-  return "url " + url + " short " + short
+  redirect Registration.register(params["u"], :keyword => params["s"]).short_url
 end
-
