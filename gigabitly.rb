@@ -32,10 +32,13 @@ module Lookup
     end
 
     def self.http_get(url)
-       a = Mechanize.new do |agent|
-         agent.user_agent_alias = 'Mac Safari'
-       end
-       a.get(url)
+      if not /^http/.match(url)
+        url = "http://" + url
+      end
+      a = Mechanize.new do |agent|
+        agent.user_agent_alias = 'Mac Safari'
+      end
+      a.get(url)
     end
 
     # Do the initial follow
