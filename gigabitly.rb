@@ -78,14 +78,14 @@ module Registration
 end
 
 get '/' do
-  @title = "Gigabitly"
+  @title = "gigabitly"
   @content = erb :index
   erb :base
 end
 
 post '/link' do
   @url = params["u"]
-  @title = @url + " - Gigabitly"
+  @title = @url + " - gigabitly"
   @shorts = Lookup.keywords(@url)
   @content = erb :link
   erb :base

@@ -3,12 +3,30 @@ body {
     width: 700px;
     margin: auto;
 }
-input {
+h1 {
+    text-align: center;
+    font-size: 400%;
+}
+#giga {
+   color: #8899EE;
+}
+#bitly {
+    color: #F7CB78;
+}
+input.text {
     font-size: 200%;
     border: none;
     outline-width: 0;
     border-bottom: 1px solid black;
-    width: 700px;
+    width: 500px;
+}
+input.submit {
+    width: 180px;
+    background: #DDEEFF;
+    border: 1px solid #CCDDFF;
+    font-size: 150%;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 ul {
     list-style: none;
@@ -17,6 +35,9 @@ ul {
 li {
     margin-bottom: 1em;
     margin-left: -1em;
+}
+#foot {
+    text-align: center;
 }
 #foot a {
     color: black;
